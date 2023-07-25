@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 function App() {
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState<{ role: string, content: string }[]>([]);
   const [isTyping, setIsTyping] = useState(false);
 
-  const chat = async (e: Event, message: string) => {
+  const chat = (e: FormEvent<HTMLFormElement>, message: string) => {
     e.preventDefault();
 
     if (!message) return;
@@ -17,7 +17,7 @@ function App() {
 
     setMessage("");
 
-    fetch("http://localhost:8000/", {
+    fetch(import.meta.env.VITE_APP_BACKEND_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +61,7 @@ function App() {
         </p>
       </div>
 
-      <form action="" onSubmit={(e) => chat(e, message)}>
+      <form action="" onSubmit={(e: FormEvent<HTMLFormElement>) => chat(e, message)}>
         <input
           type="text"
           name="message"
